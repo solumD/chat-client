@@ -2,10 +2,13 @@ package config
 
 import "github.com/joho/godotenv"
 
-type ClientConfig interface {
+type AuthServerConfig interface {
 	AuthServerAddress() string
-	ChatServerAddress() string
 	AuthCertPath() string
+}
+
+type ChatServerConfig interface {
+	ChatServerAddress() string
 	ChatCertPath() string
 }
 

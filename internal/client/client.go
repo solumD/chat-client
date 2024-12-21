@@ -4,17 +4,19 @@ import (
 	"context"
 
 	"github.com/solumD/chat-client/internal/model"
+	"github.com/solumD/chat-server/pkg/chat_v1"
 )
 
-type AuthClient interface {
-	CreateUser(ctx context.Context, user *model.UserToCreate) error
-	Login(ctx context.Context, user *model.UserToLogin) error
+type AuthServerClient interface {
+	CreateUser(ctx context.Context, user *model.UserToCreate) (int64, error)
+	Login(ctx context.Context, user *model.UserToLogin) (string, string, error)
+	GetRefreshToken(ctx context.Context, refreshToken string) (string, error)
 	GetAccessToken(ctx context.Context, refreshToken string) (string, error)
-	Check(ctx context.Context, accessToken string) (string, error)
+	Check(ctx context.Context, accessToken string, endpoint string) (string, error)
 }
 
-type ChatClient interface {
+type ChatServerClient interface {
 	CreateChat(ctx context.Context, chat *model.Chat) (int64, error)
-	ConnectChat(ctx context.Context, chatID int64, username string) error
-	SendMessage(ctx context.Context, chatID int64, from string, text string) error
+	ConnectChat(ctx context.Context, chatID int64, username string) (chat_v1.ChatV1_ConnectChatClient, error)
+	SendMessage(ctx context.Context, message *model.Message) error
 }
