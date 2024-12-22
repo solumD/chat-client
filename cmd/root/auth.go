@@ -17,22 +17,22 @@ var createUserCmd = &cobra.Command{
 
 		username, err := cmd.Flags().GetString("username")
 		if err != nil {
-			log.Fatalf("failed to get username: %v", err)
+			log.Fatalf("failed to get username: %s\n", err.Error())
 		}
 
 		email, err := cmd.Flags().GetString("email")
 		if err != nil {
-			log.Fatalf("failed to get email: %v", err)
+			log.Fatalf("failed to get email: %s\n", err.Error())
 		}
 
 		password, err := cmd.Flags().GetString("password")
 		if err != nil {
-			log.Fatalf("failed to get password: %v", err)
+			log.Fatalf("failed to get password: %s\n", err.Error())
 		}
 
 		a, err := app.NewApp(ctx)
 		if err != nil {
-			log.Fatalf("failed to get new app: %v", err)
+			log.Fatalf("failed to get new app: %s\n", err.Error())
 		}
 
 		userID, err := a.ServiceProvider.AuthServerClient(ctx).CreateUser(ctx,
@@ -45,7 +45,7 @@ var createUserCmd = &cobra.Command{
 		)
 
 		if err != nil {
-			fmt.Printf("Не удалось создать пользователя\n%v\n", err)
+			fmt.Printf("Не удалось создать пользователя\n%s\n", err.Error())
 			return
 		}
 
@@ -61,17 +61,17 @@ var loginCmd = &cobra.Command{
 
 		username, err := cmd.Flags().GetString("username")
 		if err != nil {
-			log.Fatalf("failed to get username: %v", err)
+			log.Fatalf("failed to get username: %s\n", err.Error())
 		}
 
 		password, err := cmd.Flags().GetString("password")
 		if err != nil {
-			log.Fatalf("failed to get password: %v", err)
+			log.Fatalf("failed to get password: %s\n", err.Error())
 		}
 
 		a, err := app.NewApp(ctx)
 		if err != nil {
-			log.Fatalf("failed to get new app: %v", err)
+			log.Fatalf("failed to get new app: %s\n", err.Error())
 		}
 
 		rToken, aToken, err := a.ServiceProvider.AuthServerClient(ctx).Login(ctx,
@@ -82,7 +82,7 @@ var loginCmd = &cobra.Command{
 		)
 
 		if err != nil {
-			fmt.Printf("Не удалось выполниить вход\n%v\n", err)
+			fmt.Printf("Не удалось выполниить вход\n%v\n", err.Error())
 			return
 		}
 
@@ -91,10 +91,6 @@ var loginCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(createCmd)
-	rootCmd.AddCommand(createUserCmd)
-	rootCmd.AddCommand(loginCmd)
-
 	createCmd.AddCommand(createUserCmd)
 
 	createUserCmd.Flags().StringP("username", "u", "", "Имя пользователя")

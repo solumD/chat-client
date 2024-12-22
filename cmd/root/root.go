@@ -22,3 +22,10 @@ func Execute() {
 		os.Exit(1)
 	}
 }
+
+func init() {
+	rootCmd.AddCommand(createCmd)
+	rootCmd.AddCommand(createUserCmd)
+	rootCmd.AddCommand(loginCmd)
+	rootCmd.AddCommand(createChatCmd)
+}
