@@ -93,7 +93,7 @@ func (cl *authServerClient) Check(ctx context.Context, accessToken string, endpo
 
 	res, err := cl.accessClient.Check(mdCtx, req)
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 
 	return res.GetUsername(), nil
