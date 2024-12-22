@@ -21,7 +21,6 @@ import (
 type serviceProvider struct {
 	authServerCfg config.AuthServerConfig
 	chatServerCfg config.ChatServerConfig
-	loggerCfg     config.LoggerConfig
 
 	authServerClient client.AuthServerClient
 	chatServerClient client.ChatServerClient
@@ -55,19 +54,6 @@ func (s *serviceProvider) ChatServerConfig() config.ChatServerConfig {
 	}
 
 	return s.chatServerCfg
-}
-
-func (s *serviceProvider) LoggerConfig() config.LoggerConfig {
-	if s.loggerCfg == nil {
-		cfg, err := config.NewLoggerConfig()
-		if err != nil {
-			log.Fatalf("failed to get logger config:%v", err)
-		}
-
-		s.loggerCfg = cfg
-	}
-
-	return s.loggerCfg
 }
 
 func (s *serviceProvider) AuthServerClient(ctx context.Context) client.AuthServerClient {
