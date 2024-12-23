@@ -14,6 +14,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const (
+	createChatEP  = "/chat_v1.ChatV1/CreateChat"
+	connectChatEP = "/chat_v1.ChatV1/ConnectChat"
+)
+
 var createChatCmd = &cobra.Command{
 	Use:   "chat",
 	Short: "Создает чат",
@@ -46,9 +51,9 @@ var createChatCmd = &cobra.Command{
 			log.Fatalf("failed to get new app: %s\n", err.Error())
 		}
 
-		_, err = a.ServiceProvider.AuthServerClient(ctx).Check(ctx, aToken, "/chat_v1.ChatV1/CreateChat")
+		_, err = a.ServiceProvider.AuthServerClient(ctx).Check(ctx, aToken, createChatEP)
 		if err != nil {
-			fmt.Printf("Ошибка во время проверки доступа\n%s", err.Error())
+			fmt.Printf("\nОшибка во время проверки доступа\n%s", err.Error())
 			return
 		}
 
@@ -60,11 +65,11 @@ var createChatCmd = &cobra.Command{
 		)
 
 		if err != nil {
-			fmt.Printf("Не удалось создать чат\n%s\n", err.Error())
+			fmt.Printf("\nНе удалось создать чат\n%s\n", err.Error())
 			return
 		}
 
-		fmt.Printf("Успешно создан чат с id %d\n", chatID)
+		fmt.Printf("\nУспешно создан чат с id %d\n", chatID)
 	},
 }
 
@@ -95,20 +100,20 @@ var connectChatCmd = &cobra.Command{
 			log.Fatalf("failed to get new app: %s\n", err.Error())
 		}
 
-		username, err := a.ServiceProvider.AuthServerClient(ctx).Check(ctx, aToken, "/chat_v1.ChatV1/ConnectChat")
+		username, err := a.ServiceProvider.AuthServerClient(ctx).Check(ctx, aToken, connectChatEP)
 
 		if err != nil {
-			fmt.Printf("Ошибка во время проверки доступа\n%s\n", err.Error())
+			fmt.Printf("\nОшибка во время проверки доступа\n%s\n", err.Error())
 			return
 		}
 
 		stream, err := a.ServiceProvider.ChatServerClient(ctx).ConnectChat(ctx, chatID, username)
 		if err != nil {
-			fmt.Printf("Не удалось подключиться к чату\n%s", err.Error())
+			fmt.Printf("\nНе удалось подключиться к чату\n%s", err.Error())
 			return
 		}
 
-		fmt.Println("Успешное подключение к чату")
+		fmt.Println("\nУспешное подключение к чату")
 		fmt.Println("Для отправки сообщения введите его текст, а затем нажмите два раза на Enter")
 
 		go func() {

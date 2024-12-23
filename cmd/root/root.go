@@ -21,6 +21,11 @@ var connectCmd = &cobra.Command{
 	Short: "Подключается к чему-то",
 }
 
+var getCmd = &cobra.Command{
+	Use:   "get",
+	Short: "Получает что-то",
+}
+
 func Execute() {
 	err := rootCmd.Execute()
 	if err != nil {
@@ -30,10 +35,12 @@ func Execute() {
 
 func init() {
 	rootCmd.AddCommand(createCmd)
+	rootCmd.AddCommand(createChatCmd)
+	rootCmd.AddCommand(createUserCmd)
+
 	rootCmd.AddCommand(connectCmd)
 
-	rootCmd.AddCommand(createUserCmd)
 	rootCmd.AddCommand(loginCmd)
 
-	rootCmd.AddCommand(createChatCmd)
+	rootCmd.AddCommand(getCmd)
 }

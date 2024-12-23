@@ -45,11 +45,11 @@ var createUserCmd = &cobra.Command{
 		)
 
 		if err != nil {
-			fmt.Printf("Не удалось создать пользователя\n%s\n", err.Error())
+			fmt.Printf("\nНе удалось создать пользователя\n%s\n", err.Error())
 			return
 		}
 
-		fmt.Printf("Успешно создан пользователь с id %d\n", userID)
+		fmt.Printf("\nУспешно создан пользователь с id %d\n", userID)
 	},
 }
 
@@ -82,11 +82,63 @@ var loginCmd = &cobra.Command{
 		)
 
 		if err != nil {
-			fmt.Printf("Не удалось выполниить вход\n%v\n", err.Error())
+			fmt.Printf("\nНе удалось выполниить вход\n%v\n", err.Error())
 			return
 		}
 
-		fmt.Printf("Успешный вход\nrefresh_token: %s\naccess_token: %s\n", rToken, aToken)
+		fmt.Printf("\nУспешный вход\nrefresh_token: %s\naccess_token: %s\n", rToken, aToken)
+	},
+}
+
+var getRefreshTokenCmd = &cobra.Command{
+	Use:   "refresh-token",
+	Short: "Получает новый refresh токен после отправки старого",
+	Run: func(cmd *cobra.Command, args []string) {
+		ctx := cmd.Context()
+
+		refreshToken, err := cmd.Flags().GetString("refresh-token")
+		if err != nil {
+			log.Fatalf("failed to get refresh token: %s\n", err.Error())
+		}
+
+		a, err := app.NewApp(ctx)
+		if err != nil {
+			log.Fatalf("failed to get new app: %s\n", err.Error())
+		}
+
+		newRefreshToken, err := a.ServiceProvider.AuthServerClient(ctx).GetRefreshToken(ctx, refreshToken)
+		if err != nil {
+			fmt.Printf("\nНе удалось получить новый refresh токен\n%s\n", err.Error())
+			return
+		}
+
+		fmt.Printf("\nУспешное получение нового refresh токена\n%s\n", newRefreshToken)
+	},
+}
+
+var getAccessTokenCmd = &cobra.Command{
+	Use:   "access-token",
+	Short: "Получает новый access токен после отправки refresh токена",
+	Run: func(cmd *cobra.Command, args []string) {
+		ctx := cmd.Context()
+
+		refreshToken, err := cmd.Flags().GetString("refresh-token")
+		if err != nil {
+			log.Fatalf("failed to get refresh token: %s\n", err.Error())
+		}
+
+		a, err := app.NewApp(ctx)
+		if err != nil {
+			log.Fatalf("failed to get new app: %s\n", err.Error())
+		}
+
+		newAccessToken, err := a.ServiceProvider.AuthServerClient(ctx).GetAccessToken(ctx, refreshToken)
+		if err != nil {
+			fmt.Printf("\nНе удалось получить новый access токен\n%s\n", err.Error())
+			return
+		}
+
+		fmt.Printf("\nУспешное получение нового access токена\n%s\n", newAccessToken)
 	},
 }
 
@@ -121,5 +173,19 @@ func init() {
 	err = loginCmd.MarkFlagRequired("password")
 	if err != nil {
 		log.Fatalf("failed to mark password flag as required: %s\n", err.Error())
+	}
+
+	getCmd.AddCommand(getRefreshTokenCmd)
+	getRefreshTokenCmd.Flags().StringP("refresh-token", "t", "", "Refresh токен")
+	err = getRefreshTokenCmd.MarkFlagRequired("refresh-token")
+	if err != nil {
+		log.Fatalf("failed to mark refresh-token flag as required: %s\n", err.Error())
+	}
+
+	getCmd.AddCommand(getAccessTokenCmd)
+	getAccessTokenCmd.Flags().StringP("refresh-token", "t", "", "Refresh токен")
+	err = getAccessTokenCmd.MarkFlagRequired("refresh-token")
+	if err != nil {
+		log.Fatalf("failed to mark refresh-token flag as required: %s\n", err.Error())
 	}
 }
