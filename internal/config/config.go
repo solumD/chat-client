@@ -2,19 +2,18 @@ package config
 
 import "github.com/joho/godotenv"
 
+// AuthServerConfig интерфейс конфига для клиента
+// сервера Auth
 type AuthServerConfig interface {
 	AuthServerAddress() string
 	AuthCertPath() string
 }
 
+// ChatServerConfig интерфейс конфига для клиента
+// сервера Chat
 type ChatServerConfig interface {
 	ChatServerAddress() string
 	ChatCertPath() string
-}
-
-// LoggerConfig интерфейс конфига логгера
-type LoggerConfig interface {
-	Level() string
 }
 
 // Load читает .env файл по указанному пути

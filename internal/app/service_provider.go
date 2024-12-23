@@ -26,6 +26,7 @@ type serviceProvider struct {
 	chatServerClient client.ChatServerClient
 }
 
+// NewServiceProvider возвращает новый объект serviceProvider
 func NewServiceProvider() *serviceProvider {
 	return &serviceProvider{}
 }

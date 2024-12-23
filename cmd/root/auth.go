@@ -9,10 +9,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// команда создания юзера
 var createUserCmd = &cobra.Command{
 	Use:   "user",
 	Short: "Создает пользователя",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		ctx := cmd.Context()
 
 		username, err := cmd.Flags().GetString("username")
@@ -53,10 +54,11 @@ var createUserCmd = &cobra.Command{
 	},
 }
 
+// команда авторизации юзера
 var loginCmd = &cobra.Command{
 	Use:   "login",
 	Short: "Авторизует пользователя на сервере",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		ctx := cmd.Context()
 
 		username, err := cmd.Flags().GetString("username")
@@ -90,10 +92,11 @@ var loginCmd = &cobra.Command{
 	},
 }
 
+// команда получения refresh токена
 var getRefreshTokenCmd = &cobra.Command{
 	Use:   "refresh-token",
 	Short: "Получает новый refresh токен после отправки старого",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		ctx := cmd.Context()
 
 		refreshToken, err := cmd.Flags().GetString("refresh-token")
@@ -116,10 +119,11 @@ var getRefreshTokenCmd = &cobra.Command{
 	},
 }
 
+// команда получения access токена
 var getAccessTokenCmd = &cobra.Command{
 	Use:   "access-token",
 	Short: "Получает новый access токен после отправки refresh токена",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		ctx := cmd.Context()
 
 		refreshToken, err := cmd.Flags().GetString("refresh-token")
@@ -143,6 +147,7 @@ var getAccessTokenCmd = &cobra.Command{
 }
 
 func init() {
+	// инициализируем команду создания юзера
 	createCmd.AddCommand(createUserCmd)
 
 	createUserCmd.Flags().StringP("username", "u", "", "Имя пользователя")
@@ -163,6 +168,9 @@ func init() {
 		log.Fatalf("failed to mark password flag as required: %s\n", err.Error())
 	}
 
+	// инициализируем команду авторизации
+	rootCmd.AddCommand(loginCmd)
+
 	loginCmd.Flags().StringP("username", "u", "", "Имя пользователя")
 	err = loginCmd.MarkFlagRequired("username")
 	if err != nil {
@@ -175,6 +183,7 @@ func init() {
 		log.Fatalf("failed to mark password flag as required: %s\n", err.Error())
 	}
 
+	// инициализируем команду получения refresh токена
 	getCmd.AddCommand(getRefreshTokenCmd)
 	getRefreshTokenCmd.Flags().StringP("refresh-token", "t", "", "Refresh токен")
 	err = getRefreshTokenCmd.MarkFlagRequired("refresh-token")
@@ -182,6 +191,7 @@ func init() {
 		log.Fatalf("failed to mark refresh-token flag as required: %s\n", err.Error())
 	}
 
+	// инициализируем команду получения access токена
 	getCmd.AddCommand(getAccessTokenCmd)
 	getAccessTokenCmd.Flags().StringP("refresh-token", "t", "", "Refresh токен")
 	err = getAccessTokenCmd.MarkFlagRequired("refresh-token")

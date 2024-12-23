@@ -26,6 +26,7 @@ var getCmd = &cobra.Command{
 	Short: "Получает что-то",
 }
 
+// Execute выполняет переданную команду
 func Execute() {
 	err := rootCmd.Execute()
 	if err != nil {
@@ -34,13 +35,14 @@ func Execute() {
 }
 
 func init() {
+	// инициализируем команды создания
 	rootCmd.AddCommand(createCmd)
 	rootCmd.AddCommand(createChatCmd)
 	rootCmd.AddCommand(createUserCmd)
 
+	// инициализируем команду подключения
 	rootCmd.AddCommand(connectCmd)
 
-	rootCmd.AddCommand(loginCmd)
-
+	// инициализируем команду получения
 	rootCmd.AddCommand(getCmd)
 }

@@ -19,10 +19,11 @@ const (
 	connectChatEP = "/chat_v1.ChatV1/ConnectChat"
 )
 
+// команда создания чата
 var createChatCmd = &cobra.Command{
 	Use:   "chat",
 	Short: "Создает чат",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		ctx := cmd.Context()
 
 		chatName, err := cmd.Flags().GetString("chat-name")
@@ -73,10 +74,11 @@ var createChatCmd = &cobra.Command{
 	},
 }
 
+// команда подключения чата и отправки в него сообщения
 var connectChatCmd = &cobra.Command{
 	Use:   "chat",
-	Short: "Подключает к чату. Нажмите q/й для выхода",
-	Run: func(cmd *cobra.Command, args []string) {
+	Short: "Подключает к чату дает возможность писать в него сообщения. Нажмите q/й для выхода",
+	Run: func(cmd *cobra.Command, _ []string) {
 		ctx := cmd.Context()
 
 		id, err := cmd.Flags().GetString("chat-id")
@@ -116,6 +118,7 @@ var connectChatCmd = &cobra.Command{
 		fmt.Println("\nУспешное подключение к чату")
 		fmt.Println("Для отправки сообщения введите его текст, а затем нажмите два раза на Enter")
 
+		// читаем входящие сообщения
 		go func() {
 			for {
 				message, errRecv := stream.Recv()
@@ -131,6 +134,7 @@ var connectChatCmd = &cobra.Command{
 			}
 		}()
 
+		// считываем сообщение
 		for {
 			scanner := bufio.NewScanner(os.Stdin)
 			var lines strings.Builder
@@ -156,6 +160,7 @@ var connectChatCmd = &cobra.Command{
 				return
 			}
 
+			// отправляем сообщение
 			err = a.ServiceProvider.ChatServerClient(ctx).SendMessage(ctx, &model.Message{
 				ChatID: chatID,
 				From:   username,
@@ -171,8 +176,8 @@ var connectChatCmd = &cobra.Command{
 }
 
 func init() {
+	// инициализируем команду создания чата
 	createCmd.AddCommand(createChatCmd)
-	connectCmd.AddCommand(connectChatCmd)
 
 	createChatCmd.Flags().StringP("access-token", "t", "", "Access token")
 	err := createChatCmd.MarkFlagRequired("access-token")
@@ -192,6 +197,8 @@ func init() {
 		log.Fatalf("failed to mark usernames flag as required: %s\n", err.Error())
 	}
 
+	// инициализируем команду подключения к чату и отправки в него сообщения
+	connectCmd.AddCommand(connectChatCmd)
 	connectChatCmd.Flags().StringP("chat-id", "i", "", "ID чата")
 	err = connectChatCmd.MarkFlagRequired("chat-id")
 	if err != nil {

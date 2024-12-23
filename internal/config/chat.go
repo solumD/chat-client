@@ -18,6 +18,7 @@ type chatServerConfig struct {
 	chatCertPath string
 }
 
+// NewChatServerConfig возвращает новый объект конфига ChatServer
 func NewChatServerConfig() (ChatServerConfig, error) {
 	chatHost := os.Getenv(chatHostEnvName)
 	if len(chatHost) == 0 {
@@ -41,10 +42,12 @@ func NewChatServerConfig() (ChatServerConfig, error) {
 	}, nil
 }
 
+// ChatServerAddress вовзращает полный адрес сервера chat
 func (cfg *chatServerConfig) ChatServerAddress() string {
 	return net.JoinHostPort(cfg.chatHost, cfg.chatPort)
 }
 
+// ChatCertPath возвращает путь файла сертификата севера chat
 func (cfg *chatServerConfig) ChatCertPath() string {
 	return cfg.chatCertPath
 }

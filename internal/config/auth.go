@@ -18,6 +18,7 @@ type authServerConfig struct {
 	authCertPath string
 }
 
+// NewAuthServerConfig возвращает новый объект конфига AuthServer
 func NewAuthServerConfig() (AuthServerConfig, error) {
 	authHost := os.Getenv(authHostEnvName)
 	if len(authHost) == 0 {
@@ -41,10 +42,12 @@ func NewAuthServerConfig() (AuthServerConfig, error) {
 	}, nil
 }
 
+// AuthServerAddress вовзращает полный адрес сервера auth
 func (cfg *authServerConfig) AuthServerAddress() string {
 	return net.JoinHostPort(cfg.authHost, cfg.authPort)
 }
 
+// AuthCertPath возвращает путь файла сертификата сервера auth
 func (cfg *authServerConfig) AuthCertPath() string {
 	return cfg.authCertPath
 }
