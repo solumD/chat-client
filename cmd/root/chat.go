@@ -111,7 +111,7 @@ var connectChatCmd = &cobra.Command{
 
 		stream, err := a.ServiceProvider.ChatServerClient(ctx).ConnectChat(ctx, chatID, username)
 		if err != nil {
-			fmt.Printf("\nНе удалось подключиться к чату\n%s", err.Error())
+			fmt.Printf("\nНе удалось подключиться к чату\n%s\n", err.Error())
 			return
 		}
 
