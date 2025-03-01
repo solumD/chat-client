@@ -51,6 +51,20 @@ func (cl *chatServerClient) ConnectChat(ctx context.Context, chatID int64, usern
 	return stream, nil
 }
 
+// GetUserChats отправляет запрос на получение всех чатов пользователя и информации о них
+func (cl *chatServerClient) GetUserChats(ctx context.Context, username string) ([]*chat_v1.ChatInfo, error) {
+	req := &chat_v1.GetUserChatsRequest{
+		Username: username,
+	}
+
+	res, err := cl.chatClient.GetUserChats(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	return res.GetChats(), nil
+}
+
 // SendMessage отправляет запрос на отправку сообщения в чат
 func (cl *chatServerClient) SendMessage(ctx context.Context, message *model.Message) error {
 	req := &chat_v1.SendMessageRequest{

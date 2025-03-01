@@ -20,8 +20,10 @@ github.com/joho/godotenv v1.5.1/go.mod h1:f4LDr5Voq0i2e/R5DDNOoa2zzDfwtkZa6DnEwA
 github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
 github.com/solumD/auth v0.0.0-20241221153300-1129ca65291d h1:8WOzZy4XhxzVNy/GZxuMt1LeMIj1HXJkij9ZxMZO40I=
 github.com/solumD/auth v0.0.0-20241221153300-1129ca65291d/go.mod h1:tZRSyshrpZ4YLlPJwwxo9Yv35JRTqFwIVXyLqtweMcA=
-github.com/solumD/chat-server v0.0.0-20241221152120-be3cafa8debc h1:FGzkZIPW7E+FuGJ4fbpAIQCET5SYNbGLGuZ+CW7OjFc=
-github.com/solumD/chat-server v0.0.0-20241221152120-be3cafa8debc/go.mod h1:IRFbXkHoPAjSUHA35Wu5AGq4zsgr7M3LmRMNjcH6BLk=
+github.com/solumD/chat-server v0.0.1 h1:99W3Jrqog5KKo9c+snW5yXVXmfdMa1cXC3dVmDp3jKo=
+github.com/solumD/chat-server v0.0.1/go.mod h1:nKRQUeKQGvHPrF770fHMz76YVrf8z/tdsxhgf2y9m5o=
+github.com/solumD/chat-server v0.0.2 h1:RkMsAkaIe137CYP+8BQIuvzeoBn3taJHbEW4/302ros=
+github.com/solumD/chat-server v0.0.2/go.mod h1:nKRQUeKQGvHPrF770fHMz76YVrf8z/tdsxhgf2y9m5o=
 github.com/spf13/cobra v1.8.1 h1:e5/vxKd/rZsfSJMUX1agtjeTDf+qv1/JdBF8gg5k9ZM=
 github.com/spf13/cobra v1.8.1/go.mod h1:wHxEcudfqmLYa8iTfL+OuZPbBZkmvliBWKIezN3kD9Y=
 github.com/spf13/pflag v1.0.5 h1:iy+VFUOCP1a+8yFto/drg2CJ5u0yRoB7fZw3DKv/JXA=

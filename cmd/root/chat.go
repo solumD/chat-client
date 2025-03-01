@@ -115,8 +115,9 @@ var connectChatCmd = &cobra.Command{
 			return
 		}
 
-		fmt.Println("\nУспешное подключение к чату")
+		fmt.Println("Успешное подключение к чату")
 		fmt.Println("Для отправки сообщения введите его текст, а затем нажмите два раза на Enter")
+		fmt.Println()
 
 		// читаем входящие сообщения
 		go func() {
@@ -157,7 +158,6 @@ var connectChatCmd = &cobra.Command{
 			err = scanner.Err()
 			if err != nil {
 				log.Printf("Не удалось просканировать сообщение\n%s", err.Error())
-				return
 			}
 
 			// отправляем сообщение
@@ -169,7 +169,6 @@ var connectChatCmd = &cobra.Command{
 
 			if err != nil {
 				log.Printf("Не удалось отправить сообщение\n%s", err.Error())
-				return
 			}
 		}
 	},

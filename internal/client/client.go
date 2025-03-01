@@ -20,5 +20,6 @@ type AuthServerClient interface {
 type ChatServerClient interface {
 	CreateChat(ctx context.Context, chat *model.Chat) (int64, error)
 	ConnectChat(ctx context.Context, chatID int64, username string) (chat_v1.ChatV1_ConnectChatClient, error)
+	GetUserChats(ctx context.Context, username string) ([]*chat_v1.ChatInfo, error)
 	SendMessage(ctx context.Context, message *model.Message) error
 }

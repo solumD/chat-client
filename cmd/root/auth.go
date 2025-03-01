@@ -88,7 +88,19 @@ var loginCmd = &cobra.Command{
 			return
 		}
 
-		fmt.Printf("\nУспешный вход\nrefresh_token: %s\naccess_token: %s\n", rToken, aToken)
+		chats, err := a.ServiceProvider.ChatServerClient(ctx).GetUserChats(ctx, username)
+		if err != nil {
+			fmt.Printf("\nНе удалось получить доступные чаты\n%v\n", err.Error())
+			return
+		}
+
+		fmt.Printf("Добро пожаловать, %s!\n", username)
+		fmt.Printf("\nВаши токены доступа:\nrefresh_token: %s\naccess_token: %s\n", rToken, aToken)
+		fmt.Println("\nВаши чаты:")
+		for _, c := range chats {
+			fmt.Printf("ID: %d | Название: %s | Пользователи: %v\n", c.GetId(), c.GetName(), c.GetUsernames())
+		}
+		fmt.Println()
 	},
 }
 
